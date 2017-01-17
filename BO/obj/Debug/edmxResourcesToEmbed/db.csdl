@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="db" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="dbContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Contacts" EntityType="db.Contact" />
+    <EntitySet Name="Phones" EntityType="db.Phone" />
+    <AssociationSet Name="ContactPhone" Association="db.ContactPhone">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="Phone" EntitySet="Phones" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="LastName" Type="String" Nullable="false" />
+    <Property Name="Address" Type="String" Nullable="false" />
+    <Property Name="Comment" Type="String" Nullable="false" />
+    <NavigationProperty Name="Phones" Relationship="db.ContactPhone" FromRole="Contact" ToRole="Phone" />
+  </EntityType>
+  <EntityType Name="Phone">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" Nullable="false" />
+    <Property Name="Number" Type="String" Nullable="false" />
+    <NavigationProperty Name="Contact" Relationship="db.ContactPhone" FromRole="Phone" ToRole="Contact" />
+    <Property Name="ContactId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="ContactPhone">
+    <End Type="db.Contact" Role="Contact" Multiplicity="1" />
+    <End Type="db.Phone" Role="Phone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Phone">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

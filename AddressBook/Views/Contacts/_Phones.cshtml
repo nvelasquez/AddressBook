@@ -1,0 +1,13 @@
+﻿@model IEnumerable<BO.Phone>
+
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Number)
+        </td>
+    </tr>
+}

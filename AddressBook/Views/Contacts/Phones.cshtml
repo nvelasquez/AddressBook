@@ -1,0 +1,75 @@
+﻿@model BO.Contact
+@{
+    ViewBag.Title = "Phones";
+}
+
+<h2>Phones</h2>
+@using (Html.BeginForm("AddPhone", "Contact", FormMethod.Post, new { id = "myForm", @class = "form" }))
+{
+    <div class="form-horizontal">
+        <h4>Phone</h4>
+        <hr />
+        <input type="hidden" name="ContactId" value="@Model.Id" />
+
+        <div class="form-group">
+            @Html.Label("Tipo",new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="Type" id="Type" value="" class = "form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Number", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" name="Number" id="Number" value="" class = "form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="submit" class="btn btn-link" />
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Nombre</th>
+        </tr>
+    </thead>
+    <tbody id="result">
+        @foreach (var item in Model.Phones)
+        {
+            <tr>
+                <td>@item.Type</td>
+                <td>@item.Number</td>
+            </tr>
+        }
+    </tbody>
+
+    
+</table>
+
+@section Scripts {
+    <script>
+        $("#submit").click(function (e) {
+            debugger;
+            e.preventDefault();
+
+            var form = $("#myForm").serialize();
+
+            //$.ajax({
+            //    url: "/Contacts/AddPhone",
+            //    type: "POST",
+            //    data: form
+            //});
+
+            $.post('/Contacts/AddPhone', form, function (data) {
+                $("#result").html(data);
+            });
+        });
+    </script>    
+}
